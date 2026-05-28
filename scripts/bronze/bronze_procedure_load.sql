@@ -3,9 +3,9 @@
 Bronze Tables Ingestion with Stored Procedure
 ============================================================
 Purpose:
-	This script create a Stored Procedure that loads external .csv 
-	files into all Bronze tables using FULL LOAD strategy. 
-	For each table, it truncates existing data and then 
+	This script create a Stored Procedure that loads external .csv
+	files into all Bronze tables using FULL LOAD strategy.
+	For each table, it truncates existing data and then
 	refilled with `BULK INSERT`.
 
 	Execution time is measured and printed per
@@ -19,7 +19,7 @@ Returns:
 */
 
 -- Following the naming convention for stored procedures
-CREATE OR ALTER PROCEDURE bronze.load_bronze AS 
+CREATE OR ALTER PROCEDURE bronze.load_bronze AS
 BEGIN
 	DECLARE @start_time DATETIME, @end_time DATETIME, @batch_start_time DATETIME, @batch_end_time DATETIME
 
@@ -159,4 +159,4 @@ END
 GO
 
 -- Usage Example:
--- EXEC bronze.load_bronze;
+EXEC bronze.load_bronze;

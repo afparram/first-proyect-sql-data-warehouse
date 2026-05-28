@@ -2,7 +2,6 @@
 ============================================================
 Create Database & Schemas
 ============================================================
-
 Purpose:
     This script creates the 'FirstDataWarehouse' database using
     a medallion architecture with Bronze, Silver, and Gold schemas
