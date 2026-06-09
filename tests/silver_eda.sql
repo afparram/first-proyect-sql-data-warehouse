@@ -1,8 +1,29 @@
+/*
+===============================================================================
+Quality Checks
+===============================================================================
+Script Purpose:
+    This script performs 6 types of data qualities enumerated below:
+    - Completeness: Calculated the total available data in each column
+    - Conformity / Validity: Checked the data type, format and measure units in each column
+    - Precision / Accuracy: The data reflects the reality in each column
+    - Consistency: Ensures information remains uniform, coherent, and free from contradiction across between columns
+    - Uniqueness / Duplication: Verify duplicated registers
+    - Integrity: The keys to join tables have same format and correct information.
+
+Usage Notes:
+    - Run these checks before/after data loading Silver Layer.
+    - Investigate and resolve any discrepancies found during the checks 
+      when replacing 'bronze' with 'silver' keywords in this script.
+===============================================================================
+*/
+
+
 
 /*
-==================
+=====================
     CRM TABLES
-==================
+=====================
 */
 
 /*
@@ -149,6 +170,14 @@ SELECT DISTINCT COUNT(*) AS total_unique_rows
 FROM bronze.crm_cust_info;
 
 /*
+    Integrity
+    As shown in the data integration model, this table is one the main integrations.
+    There are not other modifications to do in this dimension
+*/
+SELECT cst_id, cst_key
+FROM bronze.crm_cust_info;
+
+/*
 ---------------------
     crm_prd_info
 ---------------------
@@ -274,8 +303,6 @@ WHERE prd_line = 'T'
 GROUP BY prd_nm
 ORDER BY prd_nm;
 
-
-
 /*
     Uniqueness / Duplication
     - There are not repetied rows as showed above in prd_id and using DISTINCT 
@@ -283,10 +310,18 @@ ORDER BY prd_nm;
 SELECT DISTINCT COUNT(*) AS total_unique_rows
 FROM bronze.crm_prd_info
 
+/*
+    Integrity
+    As shown in the data integration model, this table is one the main integrations.
+    It is necesary to split the foreign key into 'prd_cat_id' and 'prd_key'
+*/
+SELECT prd_key
+FROM bronze.crm_prd_info
+
 
 /*
 ---------------------
-    crm_prd_info
+    crm_crm_sales_details
 ---------------------
 */
 SELECT TOP 1000 *, COUNT(sls_ord_num) OVER() AS total_rows_sales_details
@@ -411,6 +446,13 @@ WHERE sls_sales != sls_price;
 SELECT DISTINCT COUNT(*) total_unique_rows
 FROM bronze.crm_sales_details;
 
+/*
+    Integrity
+    There not problems with the foreign keys
+*/
+SELECT sls_cust_id, sls_prd_key
+FROM bronze.crm_sales_details
+
 
 /*
 ==================
@@ -495,6 +537,14 @@ ORDER BY bdate DESC;
 SELECT DISTINCT COUNT(*) total_unique_rows
 FROM bronze.erp_cust_az12;
 
+/*
+    Integrity
+    The current pk stored in the crm_cust_info starts with 'AW' not 'NAS'.
+    It is necessary to standarize this foreign key with 'AW'.
+*/
+SELECT cid
+FROM bronze.erp_cust_az12
+
 
 /*
 ---------------------
@@ -551,7 +601,13 @@ GROUP BY cntry;
     - Above has checked 'cid' is unique, so the rows are unique.
 */
 
-
+/*
+    Integrity
+    There is a symbol '-' in the format of the foreign key
+    that doesn't appear in the crm_cust_info. Therefore, remove it
+*/
+SELECT cid
+FROM bronze.erp_loc_a101
 
 /*
 ---------------------
@@ -621,3 +677,10 @@ GROUP BY maintenance;
     Uniqueness / Duplication
     - Above has checked 'id' is unique, so the rows are unique.
 */
+
+/*
+    Integrity
+    Instead of the symbol '-' there is a underscore '_'
+*/
+SELECT id
+FROM bronze.erp_px_cat_g1v2

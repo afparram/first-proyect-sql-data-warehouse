@@ -22,6 +22,8 @@ Returns:
 CREATE OR ALTER PROCEDURE bronze.load_bronze AS
 BEGIN
 	DECLARE @start_time DATETIME, @end_time DATETIME, @batch_start_time DATETIME, @batch_end_time DATETIME
+	DECLARE @BasePath NVARCHAR(500) = 'C:\Users\...';
+	DECLARE @SQL NVARCHAR(MAX);
 
 	BEGIN TRY
 		SET @batch_start_time = GETDATE();
@@ -38,13 +40,10 @@ BEGIN
 		TRUNCATE TABLE bronze.crm_cust_info;
 
 		PRINT('>> Inserting Data Into Table: bronze.crm_cust_info');
-		BULK INSERT bronze.crm_cust_info
-		FROM 'C:\Users\ANDRES\Desktop\Vida personal\Codigos\SQL\Proyecto Data Warehouse\first-proyect-sql-data-warehouse\datasets\source_crm\cust_info.csv'
-		WITH (
-			FIRSTROW = 2,
-			FIELDTERMINATOR = ',',
-			TABLOCK
-		);
+		SET @SQL = N'BULK INSERT bronze.crm_cust_info FROM '''
+        + @BasePath + '\first-proyect-sql-data-warehouse\datasets\source_crm\cust_info.csv'
+        + ''' WITH (FIRSTROW=2, FIELDTERMINATOR='','', TABLOCK);';
+		EXEC sp_executesql @SQL;
 		SET @end_time = GETDATE();
 		PRINT(N'⏱ Load Duration: ' + CAST(DATEDIFF(second, @start_time, @end_time) AS NVARCHAR) + ' seconds')
 		PRINT('')
@@ -55,13 +54,10 @@ BEGIN
 		TRUNCATE TABLE bronze.crm_prd_info
 
 		PRINT('>> Inserting Data Into Table: bronze.crm_prd_info');
-		BULK INSERT bronze.crm_prd_info
-		FROM 'C:\Users\ANDRES\Desktop\Vida personal\Codigos\SQL\Proyecto Data Warehouse\first-proyect-sql-data-warehouse\datasets\source_crm\prd_info.csv'
-		WITH (
-			FIRSTROW = 2,
-			FIELDTERMINATOR = ',',
-			TABLOCK
-		);
+		SET @SQL = N'BULK INSERT bronze.crm_prd_info FROM '''
+        + @BasePath + '\first-proyect-sql-data-warehouse\datasets\source_crm\prd_info.csv'
+        + ''' WITH (FIRSTROW=2, FIELDTERMINATOR='','', TABLOCK);';
+		EXEC sp_executesql @SQL;
 		SET @end_time = GETDATE();
 		PRINT(N'⏱ Load Duration: ' + CAST(DATEDIFF(second, @start_time, @end_time) AS NVARCHAR) + ' seconds')
 		PRINT('')
@@ -72,13 +68,10 @@ BEGIN
 		TRUNCATE TABLE bronze.crm_sales_details;
 
 		PRINT('>> Inserting Data Into Table: bronze.crm_sales_details');
-		BULK INSERT bronze.crm_sales_details
-		FROM 'C:\Users\ANDRES\Desktop\Vida personal\Codigos\SQL\Proyecto Data Warehouse\first-proyect-sql-data-warehouse\datasets\source_crm\sales_details.csv'
-		WITH (
-			FIRSTROW = 2,
-			FIELDTERMINATOR = ',',
-			TABLOCK
-		);
+		SET @SQL = N'BULK INSERT bronze.crm_sales_details FROM '''
+        + @BasePath + '\first-proyect-sql-data-warehouse\datasets\source_crm\sales_details.csv'
+        + ''' WITH (FIRSTROW=2, FIELDTERMINATOR='','', TABLOCK);';
+		EXEC sp_executesql @SQL;
 		SET @end_time = GETDATE();
 		PRINT(N'⏱ Load Duration: ' + CAST(DATEDIFF(second, @start_time, @end_time) AS NVARCHAR) + ' seconds')
 		PRINT('')
@@ -93,13 +86,10 @@ BEGIN
 		TRUNCATE TABLE bronze.erp_cust_az12;
 
 		PRINT('>> Inserting Data Into Table: bronze.erp_cust_az12');
-		BULK INSERT bronze.erp_cust_az12
-		FROM 'C:\Users\ANDRES\Desktop\Vida personal\Codigos\SQL\Proyecto Data Warehouse\first-proyect-sql-data-warehouse\datasets\source_erp\cust_az12.csv'
-		WITH (
-			FIRSTROW = 2,
-			FIELDTERMINATOR = ',',
-			TABLOCK
-		);
+		SET @SQL = N'BULK INSERT bronze.erp_cust_az12 FROM '''
+        + @BasePath + '\first-proyect-sql-data-warehouse\datasets\source_erp\cust_az12.csv'
+        + ''' WITH (FIRSTROW=2, FIELDTERMINATOR='','', TABLOCK);';
+		EXEC sp_executesql @SQL;
 		SET @end_time = GETDATE();
 		PRINT(N'⏱ Load Duration: ' + CAST(DATEDIFF(second, @start_time, @end_time) AS NVARCHAR) + ' seconds')
 		PRINT('')
@@ -110,13 +100,10 @@ BEGIN
 		TRUNCATE TABLE bronze.erp_loc_a101
 
 		PRINT('>> Inserting Data Into Table: bronze.erp_loc_a101');
-		BULK INSERT bronze.erp_loc_a101
-		FROM 'C:\Users\ANDRES\Desktop\Vida personal\Codigos\SQL\Proyecto Data Warehouse\first-proyect-sql-data-warehouse\datasets\source_erp\loc_a101.csv'
-		WITH (
-			FIRSTROW = 2,
-			FIELDTERMINATOR = ',',
-			TABLOCK
-		);
+		SET @SQL = N'BULK INSERT bronze.erp_loc_a101 FROM '''
+        + @BasePath + '\first-proyect-sql-data-warehouse\datasets\source_erp\loc_a101.csv'
+        + ''' WITH (FIRSTROW=2, FIELDTERMINATOR='','', TABLOCK);';
+		EXEC sp_executesql @SQL;
 		SET @end_time = GETDATE();
 		PRINT(N'⏱ Load Duration: ' + CAST(DATEDIFF(second, @start_time, @end_time) AS NVARCHAR) + ' seconds')
 		PRINT('')
@@ -127,13 +114,10 @@ BEGIN
 		TRUNCATE TABLE bronze.erp_px_cat_g1v2
 
 		PRINT('>> Inserting Data Into Table: bronze.erp_px_cat_g1v2');
-		BULK INSERT bronze.erp_px_cat_g1v2
-		FROM 'C:\Users\ANDRES\Desktop\Vida personal\Codigos\SQL\Proyecto Data Warehouse\first-proyect-sql-data-warehouse\datasets\source_erp\px_cat_g1v2.csv'
-		WITH (
-			FIRSTROW = 2,
-			FIELDTERMINATOR = ',',
-			TABLOCK
-		);
+		SET @SQL = N'BULK INSERT bronze.erp_px_cat_g1v2 FROM '''
+        + @BasePath + '\first-proyect-sql-data-warehouse\datasets\source_erp\px_cat_g1v2.csv'
+        + ''' WITH (FIRSTROW=2, FIELDTERMINATOR='','', TABLOCK);';
+		EXEC sp_executesql @SQL;
 		SET @end_time = GETDATE();
 		PRINT(N'⏱ Load Duration: ' + CAST(DATEDIFF(second, @start_time, @end_time) AS NVARCHAR) + ' seconds')
 		PRINT('')
