@@ -1,0 +1,9 @@
+| Tabla | Completeness | Conformity / Validity | Precision / Accuracy | Consistency | Uniqueness / Duplication | Integrity |
+|--------|-------------|----------------------|---------------------|-------------|--------------------------|-----------|
+| **crm_cust_info** | ![](crm_cust_info_completeness.png) | Duplicated `cst_id`, `cst_key`.<br><br>Whitespaces in `cst_firstname`, `cst_lastname`. | Outlier date `cst_create_date = 1900-01-01`. | 4 rows with empty columns and `cst_key` in different formats. |  |  |
+| **crm_prd_info** | ![](crm_prd_info_completeness.png) |  | Extreme gap of 8 years in `prd_start_dt`. | Likely some `prd_nm` are in the wrong `prd_line`.<br><br>`prd_end_dt` is earlier than `prd_start_dt` (chronological error). |  |  |
+| **crm_sales_details** | ![](crm_sales_details_completeness.png) | Some `sls_order_dt` values cannot be converted to date.<br><br>Negative values present in `sls_sales` and `sls_price`. | Only 11 rows have `sls_quantity > 1`. | `sls_sales` is not always equal to `sls_quantity * sls_price`. |  |  |
+| **erp_cust_az12** | ![](erp_cust_az12_completeness.png) | `cid` has two different formats.<br><br>9 ambiguous values and 4 empty strings in `gen`. | +50-year gap and future values, relative to 2026, in some `bdate` records. |  |  | There are two different PK formats, only one of them is using in the rest of sources system |
+| **erp_loc_a101** | ![](erp_loc_a101_completeness.png) | Ambiguous format in `cntry`: USA / US / United States; DE / Germany. Additionally, 5 empty strings. |  |  |  | There is a symbol '-' in the PK
+that doesn't follow the standard format |
+| **erp_px_cat_g1v2** | ![](erp_px_cat_g1v2_completeness.png) |  |  |  |  | In the PK there's a '-' instead of the standard format of '_' |
