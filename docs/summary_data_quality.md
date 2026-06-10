@@ -1,4 +1,4 @@
-| Tabla | Completeness | Conformity / Validity | Precision / Accuracy | Consistency | Uniqueness / Duplication | Integrity |
+|Table \ Quality | Completeness | Conformity / Validity | Precision / Accuracy | Consistency | Uniqueness / Duplication | Integrity |
 |--------|-------------|----------------------|---------------------|-------------|--------------------------|-----------|
 | **crm_cust_info** | ![](crm_cust_info_completeness.png) | Duplicated `cst_id`, `cst_key`.<br><br>Whitespaces in `cst_firstname`, `cst_lastname`. | Outlier date `cst_create_date = 1900-01-01`. | 4 rows with empty columns and `cst_key` in different formats. |  |  |
 | **crm_prd_info** | ![](crm_prd_info_completeness.png) |  | Extreme gap of 8 years in `prd_start_dt`. | Likely some `prd_nm` are in the wrong `prd_line`.<br><br>`prd_end_dt` is earlier than `prd_start_dt` (chronological error). |  |  |
