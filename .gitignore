@@ -13,7 +13,7 @@ Thumbs.db
 # Ignore temporary or backup files
 *.log
 *.bak
-!datasets\data_warehouse_analytics.bak
+!datasets/data_warehouse_analytics.bak
 *.tmp
 *.bkp
 
