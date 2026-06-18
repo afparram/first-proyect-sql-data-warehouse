@@ -167,9 +167,15 @@ BEGIN
 			sls_ord_num,
 			sls_prd_key,
 			sls_cust_id,
-			TRY_CONVERT(DATE, CAST(sls_order_dt AS NVARCHAR), 112) AS sls_order_dt,
-			TRY_CONVERT(DATE, CAST(sls_ship_dt AS NVARCHAR), 112) AS sls_ship_dt,
-			TRY_CONVERT(DATE, CAST(sls_due_dt AS NVARCHAR), 112) AS sls_due_dt,
+			CASE WHEN LEN(sls_order_dt) = 8 THEN CAST(CAST(sls_order_dt AS VARCHAR) AS DATE) 
+				 ELSE NULL
+			END AS sls_order_dt,
+			CASE WHEN LEN(sls_ship_dt) = 8 THEN CAST(CAST(sls_ship_dt AS VARCHAR) AS DATE) 
+				 ELSE NULL
+			END AS sls_ship_dt,
+			CASE WHEN LEN(sls_due_dt) = 8 THEN CAST(CAST(sls_due_dt AS VARCHAR) AS DATE)
+				 ELSE NULL
+			END AS sls_due_dt,
 			CASE WHEN (sls_price IS NOT NULL) AND (sls_sales != sls_quantity * ABS(sls_price) OR sls_sales IS NULL) THEN sls_quantity * ABS(sls_price)
 			ELSE ABS(sls_sales)
 			END AS sls_sales,
@@ -234,8 +240,8 @@ BEGIN
 			REPLACE(cid, '-', '') AS cid, 
 			CASE 
 				WHEN UPPER(TRIM(cntry)) = 'DE' THEN 'Germany'
-				WHEN UPPER(TRIM(cntry)) IN ('USA', 'US') THEN 'United Stated'
-				WHEN UPPER(TRIM(cntry)) IN (NULL, '') THEN 'n/a'
+				WHEN UPPER(TRIM(cntry)) IN ('USA', 'US') THEN 'United States'
+				WHEN cntry IS NULL OR TRIM(cntry) = '' THEN 'n/a'
 				ELSE TRIM(cntry)
 			END AS cntry
 		FROM bronze.erp_loc_a101
